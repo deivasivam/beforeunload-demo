@@ -168,7 +168,7 @@ export class AppComponent implements OnInit {
         return;
     }
 
-    this.sendByHttp(`manual-button-logout${endPoint}`, endPoint)
+    this.sendByHttp(`manual-button-${endPoint}`, endPoint)
       .then(() => {
         console.log(`Manual ${endPoint} beacon request successfully initiated (fetch).`);
         // Add any post-logout actions here, like redirecting the user
