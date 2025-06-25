@@ -131,6 +131,7 @@
 
 
 import { Component, OnInit } from '@angular/core';
+import Endpoint from 'src/enum/endPoint';
 import { SessionTrackerService } from 'src/service/session-tracker-service';
 
 @Component({
@@ -139,7 +140,6 @@ import { SessionTrackerService } from 'src/service/session-tracker-service';
 })
 export class AppComponent implements OnInit {
 
-  private logApiUrl = 'http://localhost:3000/signin/';
   isLoggedIn = false;
   token = '';
 
@@ -154,7 +154,19 @@ export class AppComponent implements OnInit {
   }
 
 
-  public triggerManualApi(endPoint: string): void {
+  public triggerManualApi(type: string): void {
+    let endPoint: string;
+    switch (type) {
+      case 'login':
+        endPoint = Endpoint.LOGIN
+        break;
+      case 'logout':
+        endPoint = Endpoint.LOGOUT
+        break;
+      default:
+        console.error('Invalid type provided for manual API trigger.');
+        return;
+    }
 
     this.sendByHttp(`manual-button-logout${endPoint}`, endPoint)
       .then(() => {
@@ -167,13 +179,13 @@ export class AppComponent implements OnInit {
         // alert('There was an issue with the logout process. Please try again.');
       });
 
-    if (endPoint === 'login/') {
+    if (endPoint === Endpoint.LOGIN) {
       localStorage.setItem('authToken', Math.random().toString(36).substring(2, 15));
       this.isLoggedIn = true;
       this.token = localStorage.getItem('authToken') || '';
 
     }
-    if (endPoint === 'logout/') {
+    if (endPoint === Endpoint.LOGOUT) {
       localStorage.removeItem('authToken');
       this.isLoggedIn = false;
     }
@@ -187,7 +199,7 @@ export class AppComponent implements OnInit {
     };
 
     try {
-      const response = await fetch(this.logApiUrl + endPoint, {
+      const response = await fetch(Endpoint.BASE_URL + endPoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

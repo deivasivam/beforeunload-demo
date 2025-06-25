@@ -2,12 +2,12 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DOCUMENT } from '@angular/common';
 import { fromEvent } from 'rxjs';
+import Endpoint from 'src/enum/endPoint';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SessionTrackerService {
-    private apiBaseUrl = 'http://localhost:3000'; // Replace with your actual API base URL
 
     constructor(
         private http: HttpClient,
@@ -28,7 +28,7 @@ export class SessionTrackerService {
 
     private updateLoginTime(): void {
 
-        this.http.post(`${this.apiBaseUrl}/signin/login/`, {}).subscribe({
+        this.http.post(`${Endpoint.BASE_URL}${Endpoint.LOGIN}`, {}).subscribe({
             next: () => console.log('Login time updated'),
             error: err => console.error('Login update failed', err)
         });
@@ -40,7 +40,7 @@ export class SessionTrackerService {
             console.warn('No auth token found, skipping logout update.');
             return;
         }
-        const url = `${this.apiBaseUrl}/signin/logout/`;
+        const url = `${Endpoint.BASE_URL}${Endpoint.LOGOUT}`;
         const body = JSON.stringify({});
         const headers = {
             type: 'application/json'
