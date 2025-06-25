@@ -1,29 +1,33 @@
-<!-- Other HTML content in your app.component.html -->
+<!-- Redesigned HTML content -->
 
-<h2>BeforeUnload Demo</h2>
-<p>
-  This demo showcases how to handle unsaved changes and manual logout actions. 
-  It uses the `beforeunload` event to prompt the user when they attempt to leave the page
-  without saving changes. it sends a beacon to the server when the user logs out manually
-  or when they close the tab.
-</p>
+<section class="beforeunload-demo">
+  <header>
+    <h1>BeforeUnload Demo</h1>
+    <p>
+      Learn how to handle unsaved changes and logout actions effectively. This demo uses the `beforeunload` event to prompt users before leaving the page and sends a beacon to the server for logout actions.
+    </p>
+  </header>
 
+  <main>
+    <div class="user-status" [ngSwitch]="isLoggedIn">
+      <div *ngSwitchCase="true" class="logged-in">
+        <h2>Welcome!</h2>
+        <p>Your Token: <strong>{{token}}</strong></p>
+        <p>To log out, click the button below:</p>
+        <button class="action-button logout" (click)="triggerManualApi('logout/')">Logout</button>
+      </div>
+      <div *ngSwitchCase="false" class="logged-out">
+        <h2>Hello!</h2>
+        <p>You are currently not logged in.</p>
+        <p>To log in, click the button below:</p>
+        <button class="action-button login" (click)="triggerManualApi('login/')">Login</button>
+      </div>
+    </div>
+  </main>
 
-<div [ngSwitch]="isLoggedIn">
-  <div *ngSwitchCase="true">
-    <p>You are logged in.</p>
-    <p>Your Token is : {{token}}</p>
-    <p>Click the button below to trigger a manual logout.</p>
-    <button (click)="triggerManualApi('logout/')">Logout Manually</button>
-  </div>
-  <div *ngSwitchCase="false">
-    <p>You are not logged in.</p>
-    <p>Please log in to access the application.</p>
-    <button (click)="triggerManualApi('login/')">Login Manually</button>
-  </div>
-</div>
-
-<p>
-  Clicking the "Logout Manually" button will send a beacon to notify the server 
-  about the logout action. Closing the tab or navigating away will also send a beacon.
-</p>
+  <footer>
+    <p>
+      Note: Logging out manually or closing the tab will notify the server using a beacon.
+    </p>
+  </footer>
+</section>
