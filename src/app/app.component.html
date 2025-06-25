@@ -10,11 +10,15 @@
 
 
 <div [ngSwitch]="isLoggedIn">
-  <button *ngSwitchCase="false" (click)="triggerManualApi('login/')">Login Manually</button>
-  <button *ngSwitchCase="true" (click)="triggerManualApi('logout/')">Logout Manually</button>
+  <div *ngSwitchCase="true">
+    <p>You are logged in.</p>
+    <p>Your Token is : {{token}}</p>
+    <p>Click the button below to trigger a manual logout.</p>
+    <button (click)="triggerManualApi('logout/')">Logout Manually</button>
+  </div>
+  <div *ngSwitchCase="false">
+    <p>You are not logged in.</p>
+    <p>Please log in to access the application.</p>
+    <button (click)="triggerManualApi('login/')">Login Manually</button>
+  </div>
 </div>
-
-<p>
-  Clicking the "Logout Manually" button will send a beacon to notify the server 
-  about the logout action. Closing the tab or navigating away will also send a beacon.
-</p>

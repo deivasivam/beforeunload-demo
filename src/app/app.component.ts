@@ -141,6 +141,7 @@ export class AppComponent implements OnInit {
 
   private logApiUrl = 'http://localhost:3000/signin/';
   isLoggedIn = false;
+  token = '';
 
   constructor(private sessionTracker: SessionTrackerService) { }
 
@@ -148,6 +149,7 @@ export class AppComponent implements OnInit {
     this.sessionTracker.initSessionTracking();
     if (localStorage.getItem('authToken')) {
       this.isLoggedIn = true;
+      this.token = localStorage.getItem('authToken') || '';
     }
   }
 
@@ -168,6 +170,8 @@ export class AppComponent implements OnInit {
     if (endPoint === 'login/') {
       localStorage.setItem('authToken', Math.random().toString(36).substring(2, 15));
       this.isLoggedIn = true;
+      this.token = localStorage.getItem('authToken') || '';
+
     }
     if (endPoint === 'logout/') {
       localStorage.removeItem('authToken');
